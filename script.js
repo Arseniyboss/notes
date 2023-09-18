@@ -10,3 +10,24 @@ const getItem = (name) => {
   const savedItem = localStorage.getItem(name)
   return savedItem ? JSON.parse(savedItem) : []
 }
+
+const generateNote = (note) => {
+  return `
+    <article class="note">
+      <span class="note-name">${note.name}</span>
+      <div class="note-id">${note.id}</div>
+      <button class="delete-button">
+        <i class="fa fa-trash trashcan"></i>
+      </button>
+    </article>
+  `
+}
+
+const getNotes = () => {
+  const savedNotes = getItem('notes')
+  const notes = savedNotes.map((note) => generateNote(note)).join('')
+  noteList.innerHTML = notes
+  return savedNotes
+}
+
+let notes = getNotes()
