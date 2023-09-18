@@ -31,3 +31,17 @@ const getNotes = () => {
 }
 
 let notes = getNotes()
+
+const addNote = (value) => {
+  notes.push({ id: crypto.randomUUID(), name: value.trim() })
+  setItem('notes', notes)
+  getNotes()
+  input.value = ''
+}
+
+form.addEventListener('submit', (e) => {
+  e.preventDefault()
+  const { value } = input
+  if (!value) return
+  addNote(value)
+})
