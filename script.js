@@ -45,3 +45,22 @@ form.addEventListener('submit', (e) => {
   if (!value) return
   addNote(value)
 })
+
+const deleteNote = (node) => {
+  const note = node.parentElement
+  note.remove()
+  const id = node.previousElementSibling.innerText
+  const filteredNotes = notes.filter((note) => note.id !== id)
+  notes = filteredNotes
+  setItem('notes', notes)
+}
+
+noteList.addEventListener('click', (e) => {
+  const node = e.target
+  if (node.classList.contains('delete-button')) {
+    deleteNote(node)
+  }
+  if (node.classList.contains('trashcan')) {
+    deleteNote(node.parentElement)
+  }
+})
