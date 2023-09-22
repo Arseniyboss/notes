@@ -20,8 +20,21 @@ button {
 form {
   display: flex;
   justify-content: center;
+  align-items: center;
   gap: 1rem;
   margin: 2rem 0;
+}
+
+.input-group {
+  display: flex;
+  gap: inherit;
+}
+
+form,
+.input-group {
+  @media screen and (max-width: 740px) {
+    flex-direction: column;
+  }
 }
 
 input,
@@ -35,7 +48,6 @@ input {
   outline: none;
   border: 1px solid #ddd;
   width: 280px;
-  max-width: 50%;
 
   &:focus {
     border: 1px solid #aaa;
@@ -75,7 +87,10 @@ form button {
   background: var(--blue);
 }
 
-.note-name {
+.note-details {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
   width: 80%;
   word-wrap: break-word;
 }

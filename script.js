@@ -1,5 +1,6 @@
 const form = document.querySelector('form')
-const input = document.querySelector('input')
+const titleInput = document.querySelector('.title-input')
+const noteInput = document.querySelector('.note-input')
 const noteList = document.querySelector('.note-list')
 
 const setItem = (name, item) => {
@@ -11,11 +12,14 @@ const getItem = (name) => {
   return savedItem ? JSON.parse(savedItem) : []
 }
 
-const generateNote = (note) => {
+const generateNote = ({ title, note, id }) => {
   return `
     <article class="note">
-      <span class="note-name">${note.name}</span>
-      <div class="note-id">${note.id}</div>
+      <div class="note-details">
+        ${title && `<h2>${title}</h2>`}
+        ${note && `<span>${note}</span>`}
+      </div>
+      <div class="note-id">${id}</div>
       <button class="delete-button">
         <i class="fa fa-trash trashcan"></i>
       </button>
@@ -32,18 +36,20 @@ const getNotes = () => {
 
 let notes = getNotes()
 
-const addNote = (value) => {
-  notes.push({ id: crypto.randomUUID(), name: value.trim() })
+const addNote = (title, note) => {
+  notes.push({ id: crypto.randomUUID(), title, note })
   setItem('notes', notes)
   getNotes()
-  input.value = ''
+  titleInput.value = ''
+  noteInput.value = ''
 }
 
 form.addEventListener('submit', (e) => {
   e.preventDefault()
-  const { value } = input
-  if (!value) return
-  addNote(value)
+  const title = titleInput.value.trim()
+  const note = noteInput.value.trim()
+  if (!title && !note) return
+  addNote(title, note)
 })
 
 const deleteNote = (node) => {
