@@ -14,7 +14,7 @@ const getItem = (name) => {
 
 const generateNote = ({ title, note, id }) => {
   return `
-    <article class="note">
+    <li class="note">
       <div class="note-details">
         ${title && `<h2>${title}</h2>`}
         ${note && `<span>${note}</span>`}
@@ -23,7 +23,7 @@ const generateNote = ({ title, note, id }) => {
       <button class="delete-button">
         <i class="fa fa-trash trashcan"></i>
       </button>
-    </article>
+    </li>
   `
 }
 
@@ -42,15 +42,8 @@ const addNote = (title, note) => {
   getNotes()
   titleInput.value = ''
   noteInput.value = ''
+  titleInput.focus()
 }
-
-form.addEventListener('submit', (e) => {
-  e.preventDefault()
-  const title = titleInput.value.trim()
-  const note = noteInput.value.trim()
-  if (!title && !note) return
-  addNote(title, note)
-})
 
 const deleteNote = (node) => {
   const note = node.parentElement
@@ -61,7 +54,7 @@ const deleteNote = (node) => {
   setItem('notes', notes)
 }
 
-noteList.addEventListener('click', (e) => {
+const handleClick = (e) => {
   const node = e.target
   if (node.classList.contains('delete-button')) {
     deleteNote(node)
@@ -69,4 +62,15 @@ noteList.addEventListener('click', (e) => {
   if (node.classList.contains('trashcan')) {
     deleteNote(node.parentElement)
   }
-})
+}
+
+const handleSubmit = (e) => {
+  e.preventDefault()
+  const title = titleInput.value.trim()
+  const note = noteInput.value.trim()
+  if (!title && !note) return
+  addNote(title, note)
+}
+
+noteList.addEventListener('click', handleClick)
+form.addEventListener('submit', handleSubmit)
